@@ -12,7 +12,7 @@ function App() {
 const [appointmentList,setappointmentList]=useState([]);
 const [query,setquery]=useState("");
 const [sortBy,setsortBy]=useState("petName");
-const [orderBy,setorderBy]=useState("asc");
+const [orderBy,setorderBy]=useState("Asc");
 
 
 const fetchData= useCallback(()=>{
@@ -48,14 +48,19 @@ const filterList=appointmentList.filter(
       <h1 className="text-5xl">
         <BiArchive className="inline-block text-red-400 align-top" />Your Appointments</h1>
       <AddAppointment/>
+
       <Search query={query} 
-      findMe={(newquery)=>{
-       console.log("change callled");
-        setquery(newquery)
+      findMe={(newquery)=>setquery(newquery)}
+      
+      sortBy={sortBy} orderBy={orderBy}
+      onChangeOrder={(order)=>setorderBy(order)}
 
-
-
-      }}/>
+      onChangeSort={(name)=>{
+        console.log(sortBy);
+        setsortBy(name)}
+      }
+    
+      />
       <ul>
        { filterList.map((xi,key)=>(
           <AppointmentInfo x={xi} key={xi.id}
