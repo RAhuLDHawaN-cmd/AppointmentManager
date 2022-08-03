@@ -10,29 +10,37 @@ import { useCallback, useEffect, useState } from "react";
 function App() {
  
 const [appointmentList,setappointmentList]=useState([]);
-
 const [query,setquery]=useState("");
+const [sortBy,setsortBy]=useState("petName");
+const [orderBy,setorderBy]=useState("asc");
 
-const filterList=appointmentList.filter(itx=>
-  {
-    itx.petName.tolowerCase().includes(query.toLowerCase())||
-    itx.ownerName.tolowerCase().includes(query.toLowerCase())||
-    itx.aptNotes.tolowerCase().includes(query.toLowerCase()
-    )
+
+const fetchData= useCallback(()=>{
+  console.log("fetch called clbk")
+  fetch('./data.json')
+  .then(response=>response.json())
+  .then(data=>{setappointmentList(data)
   });
+},[] )
 
-  const fetchData= useCallback(()=>{
-    console.log("fetch called clbk")
-    fetch('./data.json')
-    .then(response=>response.json())
-    .then(data=>{setappointmentList(data)
-    });
-  },[] )
+useEffect(()=>{
+   fetchData()
+    
+},[fetchData])
 
-  useEffect(()=>{
-     fetchData()
-      
-  },[fetchData])
+console.log("filter run");
+const filterList=appointmentList.filter(
+  itx=>
+    (
+    itx.petName.toLowerCase().includes(query.toLowerCase())||
+    itx.ownerName.toLowerCase().includes(query.toLowerCase())||
+    itx.aptNotes.toLowerCase().includes(query.toLowerCase()))
+).sort((a,b)=>{
+  let order=orderBy==="asc"?1:-1;
+  return(
+    a[sortBy].toLowerCase()<b[sortBy].toLowerCase()?-1*order:1*order
+  )
+  })
 
   return (
 
