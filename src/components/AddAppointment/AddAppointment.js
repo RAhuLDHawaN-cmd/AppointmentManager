@@ -1,12 +1,39 @@
 import React, { useState } from 'react';
-// import PropTypes from 'prop-types';
-import {  BiCalendarPlus  } from "react-icons/bi"; 
-// import { useState } from 'react';
-// import './AddAppointment.css';
 
-const AddAppointment = () => 
+import {  BiCalendarPlus  } from "react-icons/bi"; 
+
+const AddAppointment = ({onSendAppointment,lastid}) => 
    { 
 let [showForm,setShowForm]=useState(true);
+
+const cleardata={
+  petName:" ",
+  ownerName:"",
+  aptNotes:"",
+  aptTime:"",
+  aptDate:""
+}
+const [formData,setformData]=useState(cleardata);
+
+
+
+
+
+function formDataPublish(){
+
+  const appInfo={ 
+    id:lastid+1,
+    petName:formData.ownerName,
+    ownerName:formData.petName,
+    aptNotes:formData.aptNotes,
+    aptDate:formData.aptDate+""+formData.aptTime 
+  }
+
+  onSendAppointment(appInfo)
+  setformData(cleardata)
+  setShowForm(!showForm)
+
+}
   return(
   <div>
   <button className="bg-blue-400 text-white px-2 py-3 w-full text-left rounded-t-md" onClick={()=>{setShowForm(!showForm)}}>
@@ -20,7 +47,8 @@ let [showForm,setShowForm]=useState(true);
         Owner Name
       </label>
       <div className="mt-1 sm:mt-0 sm:col-span-2">
-        <input type="text" name="ownerName" id="ownerName"
+        <input type="text" name="ownerName" id="ownerName" value={formData.ownerName}
+        onChange={(event)=>{ setformData({...formData,ownerName:event.target.value })}}
           className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md" />
       </div>
     </div>
@@ -30,7 +58,8 @@ let [showForm,setShowForm]=useState(true);
         Pet Name
       </label>
       <div className="mt-1 sm:mt-0 sm:col-span-2">
-        <input type="text" name="petName" id="petName"
+        <input type="text" name="petName" id="petName"   value={formData.petName}
+         onChange={(event)=>{setformData( { ...formData,petName:event.target.value} ) } }
           className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md" />
       </div>
     </div>
@@ -41,6 +70,8 @@ let [showForm,setShowForm]=useState(true);
       </label>
       <div className="mt-1 sm:mt-0 sm:col-span-2">
         <input type="date" name="aptDate" id="aptDate"
+        value={formData.aptDate}
+        onChange={(event)=>{setformData( { ...formData,aptDate:event.target.value} ) } }
           className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md" />
       </div>
     </div>
@@ -51,6 +82,8 @@ let [showForm,setShowForm]=useState(true);
       </label>
       <div className="mt-1 sm:mt-0 sm:col-span-2">
         <input type="time" name="aptTime" id="aptTime"
+         value={formData.aptTime}
+         onChange={(event)=>{setformData( { ...formData,aptTime:event.target.value} ) } }
           className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md" />
       </div>
     </div>
@@ -60,7 +93,8 @@ let [showForm,setShowForm]=useState(true);
         Appointment Notes
       </label>
       <div className="mt-1 sm:mt-0 sm:col-span-2">
-        <textarea id="aptNotes" name="aptNotes" rows="3"
+        <textarea id="aptNotes" name="aptNotes" rows="3"  value={formData.aptNotes}
+        onChange={(event)=>{setformData( { ...formData,aptNotes:event.target.value} ) } }
           className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Detailed comments about the condition"></textarea>
       </div>
     </div>
@@ -68,7 +102,7 @@ let [showForm,setShowForm]=useState(true);
 
     <div className="pt-5">
       <div className="flex justify-end">
-        <button type="submit" className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400">
+        <button type="submit" onClick={()=>formDataPublish()} className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400">
           Submit
         </button>
       </div>

@@ -15,6 +15,7 @@ const [sortBy,setsortBy]=useState("petName");
 const [orderBy,setorderBy]=useState("Asc");
 
 
+
 const fetchData= useCallback(()=>{
   console.log("fetch called clbk")
   fetch('./data.json')
@@ -47,7 +48,8 @@ const filterList=appointmentList.filter(
     <div className="App container mx-auto mt-3 font-thick">
       <h1 className="text-5xl">
         <BiArchive className="inline-block text-red-400 align-top" />Your Appointments</h1>
-      <AddAppointment/>
+      <AddAppointment lastid={appointmentList.reduce((max,itx)=>Number(itx.id)>max?Number(itx.id):max,0)} 
+      onSendAppointment={(newAppInfo)=>{setappointmentList([...appointmentList,newAppInfo])}}/>
 
       <Search query={query} 
       findMe={(newquery)=>setquery(newquery)}

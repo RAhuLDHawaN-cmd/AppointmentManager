@@ -37,14 +37,14 @@ const [showDropDown,setShowDropDown]=useState(false);
 return(
   <div className="py-5">
     <div className="mt-1 relative rounded-md shadow-sm">
-      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none mx-auto">
         <BiSearch />
         <label htmlFor="query" className="sr-only" />
       </div>
       
       <input type="text" name="query" id="query" value={query}
       onChange={(event)=>{findMe(event.target.value)}}
-        className="pl-8 rounded-md focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300" placeholder="Search" />
+        className="pl-8 rounded-md focus:ring-indigo-500 focus:border-indigo-500 block w-1/2 sm:text-sm border-gray-300 mx-auto" placeholder="Search" />
       <div className="absolute inset-y-0 right-0 flex items-center">
         <div>
           <button type="button" onClick={()=>setShowDropDown(!showDropDown)}
